@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Todo App (JS)</title>
+  <meta charset="UTF-8" />
+</head>
+
+<body>
+  <div class="input-area ul-mar ul-pad ul-rds">
+    <input id="js-add-text" class="ul-brd ul-pad-6-16" type="text" placeholder="Todo入力">
+    <button id="js-add-btn" class="ul-brd">Add</button>
+  </div>
+  <div class="incopleted-area ly-comp-area ul-mar ul-pad ul-rds">
+    <p class="el-title">未完了</p>
+    <ul id="js-incomplete-list">
+      <li class="ul-mar-r8">
+        <div class="bl-row">
+          <p>Todo</p>
+          <button class="ul-brd">完了</button>
+          <button class="ul-brd">削除</button>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="completed-area ly-comp-area ul-mar ul-pad ul-rds">
+    <p class="el-title">完了</p>
+    <ul id="js-complete-list">
+      <li class="ul-mar-r8">
+        <div class="bl-row">
+          <p>Todo</p>
+          <button class="ul-brd">戻す</button>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <script src="src/index.js">
+  </script>
+</body>
+
+</html>

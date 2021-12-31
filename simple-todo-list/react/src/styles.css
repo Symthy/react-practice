@@ -1,0 +1,67 @@
+input {
+  outline: none;
+}
+
+button:hover {
+  background-color: #ff77ff;
+  color: #fff;
+  cursor: pointer;
+}
+
+.input-area {
+  background-color: #c1ffff;
+  width: 400px;
+  height: 30px;
+}
+
+.incompleted-area {
+  background-color: #c6ffe2;
+}
+
+.completed-area {
+  background-color: #ffffe0;
+}
+
+.ly-comp-area {
+  width: 400px;
+  min-height: 200px;
+}
+
+.bl-row {
+  display: flex;
+  align-items: center;
+  padding-bottom: 4px;
+}
+
+.el-title {
+  text-align: center;
+  margin-top: 0;
+  font-weight: bold;
+  color: #666;
+}
+
+.ul-mar {
+  margin: 8px;
+}
+.ul-mar-r8 {
+  margin-right: 8px;
+}
+
+.ul-pad {
+  padding: 8px;
+}
+.ul-pad-6-16 {
+  padding: 6px 16px;
+}
+.ul-pad-4-16 {
+  padding: 4px 16px;
+}
+
+.ul-rds {
+  border-radius: 8px;
+}
+
+.ul-brd {
+  border-radius: 12px;
+  border: none;
+}
