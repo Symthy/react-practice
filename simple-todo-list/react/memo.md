@@ -2,8 +2,7 @@
 
 [チュートリアル](https://ja.reactjs.org/tutorial/tutorial.html)
 
-
-## 基本形
+## 基本サンプル
 
 ```
 .
@@ -53,6 +52,7 @@ export default function App() {
 返却するHTML要素は、1タグで囲われていなければならない
 
 - 単一
+
 ```js
 import React from 'react';
 import ReactDom from "react-dom";
@@ -64,9 +64,11 @@ const App = () => {
 ReactDom.render(<App />, document.getElementById("root"));
 ```
 
-- 複数 
+- 複数
 
-`<div>`で囲うと余計な要素がレンダリングされる。その時は`<React.Fragment>`で囲う。`<React.Fragment>`は`<>～</>`で省略可
+`<div>`で囲うと余計な要素がレンダリングされる。その時は`<React.Fragment>`で囲う。
+
+`<React.Fragment>`は`<>～</>`で省略可
 
 ```js
 import React from 'react';
@@ -84,7 +86,7 @@ const App = () => {
 ReactDom.render(<App />, document.getElementById("root"));
 ```
 
-### コンポーネント化
+### コンポーネント
 
 コンポーネント名は必ず先頭を大文字。推奨：パスカルケース
 
@@ -103,6 +105,7 @@ const App = () => {
 
 export App;
 ```
+
 ```js
 // index.js
 import React from 'react';
@@ -115,6 +118,7 @@ ReactDom.render(<App />, document.getElementById("root"));
 ### イベント、スタイル
 
 #### イベント実装
+
 ```jsx
 import React from 'react';
 
@@ -134,6 +138,7 @@ export App;
 #### スタイル実装
 
 CSSのプロパティ名もキャメルケースで書く
+
 ```jsx
 // App.jsx
 import React from 'react';
@@ -175,6 +180,7 @@ const Message = (props) => {
 
 export Message;
 ```
+
 ```jsx
 // App.jsx  渡す側
 import React from 'react';
@@ -196,6 +202,7 @@ export default App;
 
 - コンポーネントタグで囲った値は props.children で渡る
 - propsには分割代入を使うべし
+
 ```jsx
 // components/MessageTwo.jsx  受け取る側
 import React from 'react';
@@ -213,6 +220,7 @@ const MessageTwo = (props) => {
 
 export default MessageTwo;
 ```
+
 ```jsx
 // App.jsx  渡す側
 import React from 'react';
@@ -263,6 +271,7 @@ export App;
 ### 再レンダリングと抑止 (useEffect)
 
 コンポーネントが再レンダリングされる条件
+
 - Stateが変更された時
 - propsで受け取る値が変わった時
 - 親コンポーネントが再レンダリングされた時
@@ -292,7 +301,9 @@ export App;
 ```
 
 #### バグる例
-3の倍数の時に表示（Too many re-renders.)
+
+機能追加：3の倍数の時に表示（Too many re-renders.)
+
 - 再レンダリングした際に、stateの値が変更されるので無限再レンダリングされる
 
 ```jsx
@@ -308,7 +319,7 @@ const App = () => {
     setShowFlag(!isShow);
   };
 
-  if (num % 3 === 0) {
+  if (num % 3 === 0) { // stateの値が変わるので無限再レンダリング
     setShowFlag(true);
   } else {
     setShowFlag(false);
@@ -330,6 +341,7 @@ export App;
 
 - 対策後 (true -> true, false -> false の無駄な上書きしないようにする)
   - だが、on/off が利かなくなる
+
 ```jsx
 // App.jsx  渡す側
 import React, { useState } from 'react';
@@ -340,7 +352,7 @@ const App = () => {
     setShowFlag(!isShow);
   };
 
-  if (num > 0) {
+  if (num > 0) {  // 対策後
     if (num % 3 === 0) {
       isShow || setShowFlag(true);
     } else {
@@ -354,7 +366,7 @@ const App = () => {
       <button onClick={onClickCountUp}>count up</button>
       <br>
       <button onClick={onClickChange}>on/off</button>
-      {isShow && <p>★★★</p>}
+      {isShow && <p>★★★</p>}  // ボタン押下 → 再レンダリング. isShowはnumに応じて決まるため機能しない
     </>
   );
 }
@@ -367,13 +379,15 @@ export App;
 #### useEffect
 
 - 最初の一回のみ実行（第二引数を空配列にする）
+
 ```jsx
 useEffect(() => {
   // ここに書いた処理は最初の一回しか実行されない
 }, []);
 ```
 
-- 
+- stateの値が変わった時のみ実行
+
 ```jsx
 const [num, setNum] = useState(0);
 
@@ -415,19 +429,20 @@ const App = () => {
 
 export App;
 ```
+
 ※上記だと、Eslint で以下エラーになる
 `/* eslint react-hooks/exhaustive-deps */`
 
 ## クラスコンポーネントと関数コンポーネント
 
 - 昔はStateを扱えるのはクラスコンポーネントのみ
-- react-hooksの登場で関数コンポーネントでもStateが扱えるようになり
+- react-hooksの登場で関数コンポーネントでもStateが扱えるように
 - 新規なら関数コンポーネントが使われる
 
 
 ## 実践メモ
 
-### input 
+### input の入力値をstateに即時反映
 
 ```jsx
 const App = () => {
@@ -440,6 +455,7 @@ const App = () => {
   );
 }
 ```
+
 ### イベントハンドラに渡すのは関数
 
 onClick={onClickDelete(index)} としてしまうと即時実行される
@@ -452,7 +468,6 @@ onClick={onClickDelete(index)} としてしまうと即時実行される
 </ul>
 ```
 
-
 # default export と export
 
 export推奨
@@ -460,6 +475,7 @@ export推奨
 - default export
 
 使う側で名前付けするので、タイポに気付きにくい
+
 ```js
 import Sample from './components/SampleComp';
 ```
@@ -467,6 +483,7 @@ import Sample from './components/SampleComp';
 - export
 
 使用時は分割代入必須かつ定義された名前以外はエラーになる＝タイポ防止
+
 ```js
 import { SampleComp } from './components/SampleComp';
 ```
