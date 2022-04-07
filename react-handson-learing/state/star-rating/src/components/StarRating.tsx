@@ -1,26 +1,33 @@
-import React, { useState, VFC } from 'react';
-import Star from './Star';
+import React, { VFC } from 'react';
+import { Star } from './Star';
 
 
 type StarRatingProps = {
-  totalStars?: number
+  totalStars?: number,
+  selectedStars: number,
+  style?: {},
+  onUpdateRate: (rate: number) => void
 }
 
-const StarRating: VFC<StarRatingProps> = ({ totalStars = 5 }) => {
-  const [selectedStars, setSelectedStars] = useState(0);
+export const StarRating: VFC<StarRatingProps> = ({
+  totalStars = 5,
+  selectedStars = 0,
+  style = {},
+  onUpdateRate = fn => fn,
+  ...props
+}) => {
   return (
     <>
-      {[...Array(totalStars)].map((n, i) => (
-        <Star
-          key={i}
-          selected={selectedStars > i}
-          onSelect={() => setSelectedStars(i + 1)}
-        />
-      ))}
-      <p>{selectedStars} of {totalStars} stars </p>
+      <div style={{ padding: "5px", ...style }} {...props}>
+        {[...Array(totalStars)].map((n, i) => (
+          <Star
+            key={i}
+            selected={selectedStars > i}
+            onSelect={() => onUpdateRate(i + 1)}
+          />
+        ))}
+        <p>{selectedStars} of {totalStars} stars </p>
+      </div>
     </>
   )
 }
-
-
-export default StarRating;

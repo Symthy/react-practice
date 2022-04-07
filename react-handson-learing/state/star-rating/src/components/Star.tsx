@@ -6,8 +6,6 @@ type StarProps = {
   onSelect: (event: React.MouseEvent<SVGElement, MouseEvent>) => void
 }
 
-const Star: VFC<StarProps> = ({ selected = false, onSelect = fn => fn }) => (
+export const Star: VFC<StarProps> = ({ selected = false, onSelect = fn => fn }) => (
   <FaStar color={selected ? "red" : "grey"} onClick={onSelect} />
 );
-
-export default Star;

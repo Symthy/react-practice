@@ -1,12 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
-import StarRating from './components/StarRating';
+import { buildInitColors, ColorData } from './ColorData';
+import { ColorList } from './components/ColorList';
 
 function App() {
+  const [colors, setColors] = useState<ColorData[]>(buildInitColors());
+  const excludeColor = (id: string) => colors.filter(c => c.id !== id);
+  const onRemoveColor = (id: string) => setColors(excludeColor(id));
+
+  const onUpdateRateColor = (id: string, rating: number) => {
+    const updatedColors = colors.map(c => c.id === id ? c.withRating(rating) : c)
+    setColors(updatedColors);
+  }
+
   return (
-    <>
-      <StarRating />
-    </>
+    <ColorList colors={colors} onRemoveColor={onRemoveColor} onUpdateRateColor={onUpdateRateColor} />
   );
 }
 
