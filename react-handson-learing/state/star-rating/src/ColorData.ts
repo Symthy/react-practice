@@ -1,3 +1,5 @@
+import { v4 } from "uuid";
+
 
 type Attributes<T> = {
   [P in keyof T]: T[P] extends (...args: any[]) => any ? never : P;
@@ -12,12 +14,14 @@ export type ColorObj = {
 }
 
 export class ColorData {
+  private _id: string
   constructor(
-    private _id: string,
     private _title: string,
     private _color: string,
     private _rating: number = 0
-  ) { }
+  ) {
+    this._id = v4()
+  }
 
   get id() { return this._id; }
   get title() { return this._title; }
@@ -40,8 +44,8 @@ export class ColorData {
 
 export const buildInitColors = (): ColorData[] => {
   return [
-    new ColorData("x1", "dark turquoise", "#00ced1", 5),
-    new ColorData("y2", "lawn green", "#7cfc00", 3),
-    new ColorData("z3", "light salmon", "#ffa07a", 1)
+    new ColorData("dark turquoise", "#00ced1", 5),
+    new ColorData("lawn green", "#7cfc00", 3),
+    new ColorData("light salmon", "#ffa07a", 1)
   ];
 }

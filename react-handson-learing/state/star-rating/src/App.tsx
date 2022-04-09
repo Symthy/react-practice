@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
 import { buildInitColors, ColorData } from './ColorData';
+import { AddColorForm } from './components/AddColorForm';
 import { ColorList } from './components/ColorList';
 
 function App() {
@@ -13,8 +14,24 @@ function App() {
     setColors(updatedColors);
   }
 
+  const onNewColor = (title: string, color: string) => {
+    const newColors = [
+      ...colors,
+      new ColorData(title, color)
+    ];
+    setColors(newColors);
+  }
+
   return (
-    <ColorList colors={colors} onRemoveColor={onRemoveColor} onUpdateRateColor={onUpdateRateColor} />
+    <>
+      <AddColorForm
+        onNewColor={onNewColor}
+      />
+      <ColorList
+        colors={colors}
+        onRemoveColor={onRemoveColor}
+        onUpdateRateColor={onUpdateRateColor} />
+    </>
   );
 }
 
