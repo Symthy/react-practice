@@ -12,7 +12,7 @@ type ColorContextValues = {
   removeColor: (id: string) => void
 }
 
-const ColorContext = createContext<ColorContextValues>(null!);
+const ColorContext = createContext<ColorContextValues>(undefined!);
 export const useColors = () => useContext(ColorContext);
 
 export const ColorProvider = (props: ColorProviderProps) => {
