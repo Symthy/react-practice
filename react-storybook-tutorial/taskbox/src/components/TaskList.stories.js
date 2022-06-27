@@ -16,7 +16,7 @@ export default {
 
 const Template = () => <TaskList />;
 
-const MockedState = {
+export const MockedState = {
   tasks: [
     { ...TaskStories.Default.args.task, id: "1", title: "Task 1" },
     { ...TaskStories.Default.args.task, id: "2", title: "Task 2" },

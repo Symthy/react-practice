@@ -1,4 +1,8 @@
-import { configureStore, createSlice } from "@reduxjs/toolkit";
+import {
+  configureStore,
+  createSlice,
+  createAsyncThunk,
+} from "@reduxjs/toolkit";
 
 const defaultTasks = [
   { id: "1", title: "Something", state: "TASK_INBOX" },
@@ -11,6 +15,24 @@ const TaskBoxData = {
   status: "idle",
   error: null,
 };
+
+/*
+ * Creates an asyncThunk to fetch tasks from a remote endpoint.
+ * You can read more about Redux Toolkit's thunks in the docs:
+ * https://redux-toolkit.js.org/api/createAsyncThunk
+ */
+export const fetchTasks = createAsyncThunk("todos/fetchTodos", async () => {
+  const response = await fetch(
+    "https://jsonplaceholder.typicode.com/todos?userId=1"
+  );
+  const data = await response.json();
+  const result = data.map((task) => ({
+    id: `${task.id}`,
+    title: task.title,
+    state: task.completed ? "TASK_ARCHIVED" : "TASK_INBOX",
+  }));
+  return result;
+});
 
 /*
  * The store is created here.
@@ -29,6 +51,25 @@ const TasksSlice = createSlice({
   initialState: TaskBoxData,
   reducers: {
     updateTaskState: updateTask,
+  },
+  extraReducers(builder) {
+    builder
+      .addCase(fetchTasks.pending, (state) => {
+        state.status = "loading";
+        state.error = null;
+        state.tasks = [];
+      })
+      .addCase(fetchTasks.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.error = null;
+        // Add any fetched tasks to the array
+        state.tasks = action.payload;
+      })
+      .addCase(fetchTasks.rejected, (state) => {
+        state.status = "failed";
+        state.error = "Something went wrong";
+        state.tasks = [];
+      });
   },
 });
 
