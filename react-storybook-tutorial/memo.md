@@ -14,10 +14,24 @@ yarn
 ```
 # test
 yarn test --watchAll
+
 # run storybook
 yarn storybook
+
 # run frontend app
 yarn start
+```
+
+GUI test
+
+https://storybook.js.org/docs/react/writing-tests/test-runner
+
+```
+yarn add --dev @storybook/test-runner jest@27
+
+npm run storybook
+
+yarn test-storybook
 ```
 
 ### accessibility tests
@@ -109,7 +123,7 @@ ref: [Component-Driven Development](https://www.chromatic.com/blog/component-dri
 
 - 宣言型: 宣言型構文は、MDX のような高レベルのフォーマットと同型であり、クリーンで検証可能な変換を可能にする。
 
-## Redux (Quick Start)
+## Redux
 
 Redux ストア
 
@@ -140,10 +154,16 @@ configureStore を使用する場合、追加の入力は必要ないが、必�
 アプリケーションで使用する際は、以下フックの作成推奨
 
 - useDispatch フック
+
+useSelector の場合、毎回`(state:RootState)`と入力する必要はない。
+
 - useSelector フック
 
-- useSelector の場合、毎回`(state:RootState)`と入力する必要がありません。
-- useDispatch の場合、既定の Dispatch 型は thunks を認識しません。正しく thunks を dispatch するには、thunk middleware types を含むストアから特定のカスタマイズされた AppDispatch 型を使用し、それを useDispatch と共に使用する必要がある。事前に型指定された useDispatch フックを追加すると、必要な場所に AppDispatch をインポートすることを忘れずに済む。
+useDispatch の場合、既定の Dispatch 型は thunks を認識しません。正しく thunks を dispatch するには、thunk middleware types を含むストアから特定のカスタマイズされた AppDispatch 型を使用し、それを useDispatch と共に使用する必要がある。事前に型指定された useDispatch フックを追加すると、必要な場所に AppDispatch をインポートすることを忘れずに済む。
+
+- createSlice
+
+初期状態、reducer 関数のオブジェクト、および 「スライス名」 を受け取り、reducer と状態に対応するアクションクリエーターとアクションタイプを自動的に生成する関数。
 
 ```typescript
 // app/sotre.ts
@@ -189,3 +209,52 @@ const pinTask = (value) => {
   dispatch(updateTaskState({ id: value, newTaskState: "TASK_PINNED" }));
 };
 ```
+
+- createAsyncThunk
+
+Redux アクションタイプ文字列と promise を返すコールバック関数を受け取る関数。渡されたアクションタイププレフィックスに基づいて promise ライフサイクルアクションタイプを生成し、promise コールバックを実行し、返された promise に基づいてライフサイクルアクションをディスパッチする thunk アクションクリエーターを返す。
+
+これにより、非同期要求ライフサイクルを処理するための標準的な推奨アプローチが抽象化されます。
+
+```typescript
+import { userAPI } from "./userAPI";
+
+const fetchUserById = createAsyncThunk(
+  "users/fetchByIdStatus",
+  async (userId: number, thunkAPI) => {
+    const response = await userAPI.fetchById(userId);
+    return response.data;
+  }
+);
+
+const usersSlice = createSlice({
+  name: "users",
+  initialState,
+  reducers: {
+    // ry
+  },
+  extraReducers: (builder) => {
+    // ここに追加のアクションタイプのレジューサを追加し、必要に応じてロード状態を処理します
+    builder.addCase(fetchUserById.fulfilled, (state, action) => {
+      state.entities.push(action.payload);
+    });
+  },
+});
+
+// Later, dispatch the thunk as needed in the app
+dispatch(fetchUserById(123));
+```
+
+## Mock Service Worker
+
+Mock Service Worker は API モックライブラリ
+
+リモート API 呼び出しにあまり依存しないため、Mock Service Worker と Storybook の MSW アドオンを使用する
+
+文字通り API のモックを定義できる
+
+```
+yarn init-msw
+```
+
+公式 Doc：https://mswjs.io/docs/getting-started/mocks/rest-api
