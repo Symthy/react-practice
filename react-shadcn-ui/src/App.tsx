@@ -1,13 +1,13 @@
-import { Header } from 'components/Header';
-import { Button } from 'components/Button';
-import { ReactComponent as Logo } from 'assets/favicon.svg';
+import { Header } from '@/components/ui/layouts/header';
+import { Footer } from './components/ui/layouts/footer';
+import { InputViewer } from './features/builder';
 
 function App() {
   return (
-    <div className="App">
+    <div className="flex flex-col min-h-screen">
       <Header title="hola" />
-      <Logo height={100} width={100} />
-      <Button onClick={() => alert('hola')}>Heyo</Button>
+      <InputViewer />
+      <Footer />
     </div>
   );
 }
