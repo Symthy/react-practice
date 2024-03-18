@@ -1,5 +1,5 @@
-import { Header } from '@/components/ui/layouts/header';
-import { Footer } from './components/ui/layouts/footer';
+import { Header } from '@/components/layouts/header';
+import { Footer } from '@/components/layouts/footer';
 import { InputViewer } from './features/builder';
 
 function App() {

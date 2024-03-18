@@ -1,1 +1,1 @@
-export * from './composable/input-viewer.js';
+export * from './input-viewer.js';
