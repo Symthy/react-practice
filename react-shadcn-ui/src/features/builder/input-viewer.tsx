@@ -14,19 +14,20 @@ export const InputViewer = () => {
   </head>
   <body>
     <div class="container">
-      <h1 class="content-1">こんにちは、友人へ</h1>
-      <p class="content-2">いつもお世話になっております。元気にしていますか？</p>
-      <p class="content-3">敬具<br>あなたの名前</p>
+      <div class="content-1"><p>こんにちは、友人へ</p></div>
+      <div class="content-2"><p>いつもお世話になっております。元気にしていますか？</p></div>
+      <div class="content-3"><p>敬具<br>あなたの名前</p></div>
     </div>
   </body>
   </html>
   `);
 
   const updateHtmlTextPart = (className: string, newContent: string) => {
+    console.log(newContent);
     const parser = new DOMParser();
     const doc = parser.parseFromString(emailHtml, 'text/html');
     const element = doc.querySelector(`.${className}`);
-    if (element) {
+    if (element && element.innerHTML !== newContent) {
       element.innerHTML = newContent.replace(/\n/g, '<br>');
       setEmailHtml(doc.documentElement.outerHTML);
     }

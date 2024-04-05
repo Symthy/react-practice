@@ -8,6 +8,10 @@ import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 import Theme from './Theme';
 import ToolbarPlugin from './ToolbarPlugin';
 import './styles.css';
+import { ImportHtmlPlugin } from './plugins/import-html-plugin';
+import { ExportHtmlPlugin } from './plugins/export-html-plugin';
+import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
+import { EditorState } from 'lexical';
 
 function Placeholder() {
   return <div className="editor-placeholder">Enter some rich text...</div>;
@@ -24,7 +28,16 @@ const editorConfig = {
   theme: Theme,
 };
 
-export const HtmlTextEditor = () => {
+type Props = {
+  defaultHtmlText: string;
+  setText: (text: string) => void;
+};
+
+export const HtmlTextEditor = ({ defaultHtmlText, setText }: Props) => {
+  const onChange = (editor: EditorState) => {
+    console.log(editor);
+  };
+
   return (
     <div className="App">
       <LexicalComposer initialConfig={editorConfig}>
@@ -37,8 +50,16 @@ export const HtmlTextEditor = () => {
               ErrorBoundary={LexicalErrorBoundary}
             />
             <HistoryPlugin />
-            <AutoFocusPlugin />
-            {/* <TreeViewPlugin /> */}
+            {/* <AutoFocusPlugin /> */}
+            <ImportHtmlPlugin defaultContentAsHTML={defaultHtmlText} />
+            <ExportHtmlPlugin
+              exportAsHtml={(html: string) => {
+                setText(html);
+              }}
+            />
+            {/* <OnChangePlugin onChange={() => {
+
+            }} /> */}
           </div>
         </div>
       </LexicalComposer>
